@@ -1,9 +1,12 @@
 package mk.ukim.finki.wp.lab.model;
 
 
+
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Data
+@NoArgsConstructor
 public class Artist {
     Long id;
     String firstName;
@@ -16,4 +19,6 @@ public class Artist {
         this.lastName = ln;
         this.bio = b;
     }
+
+
 }

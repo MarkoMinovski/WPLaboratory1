@@ -9,6 +9,22 @@
             width: 800px;
             margin: auto;
         }
+
+        p {
+            width: 100px;
+            display: inline;
+        }
+
+        form {
+            display: inline;
+            width: 100px;
+        }
+
+        label {
+            display: inline-block;
+            width: 100px;
+        }
+
     </style>
 </head>
 <body>
@@ -21,18 +37,45 @@
             the value should be the trackId
             and the displayed text should be Title: <songTitle>, Genre:<genre>, Release Year: <releaseYear> -->
 
-    <form th:method="POST" th:action="@{/artist/artists}">
+    <div th:each="song: ${songList}">
+        <input type="radio" name="SongRadioButton" th:id="${song.trackId}" th:value="${song.trackId}">
+        <label th:for="${song.trackId}" th:text="${song.title} + ' ' + ${song.genre} + ' ' + ${song.releaseYear}">
+        </label>
+        <!-- whitespace -->
+        <p>&nbsp;</p>
+        <p th:text="${song.album}"></p>
+        <p>&nbsp;</p>
 
-        <div th:each="song: ${songList}">
-            <input type="radio" name="SongRadioButton" th:id="${song.trackId}" th:value="${song.trackId}">
-            <label th:for="${song.trackId}" th:text="${song.title} + ' ' + ${song.genre} + ' ' + ${song.releaseYear}">
-            </label>
-            <br>
-        </div>
+        <form th:action="@{/songs/edit/{id}(id=${song.id})}" method="post">
+            <input type="hidden" name="id" th:value="${song.id}" />
+            <button type="submit">Edit</button>
+        </form>
 
-        <input type='submit' value='Submit'>
+        <form th:action="@{/songs/delete/{id}(id=${song.id})}" method="post">
+            <input type="hidden" name="id" th:value="${song.id}" />
+            <button type="submit">Remove</button>
+        </form>
 
-    </form>
+        <form th:action="@{/artists/all}" method="post">
+            <input type="hidden" name="id" th:value="${song.id}" />
+            <button type="submit">Add Artist</button>
+        </form>
+
+
+        <br>
+    </div>
+
+    <h2>Add new song:</h2>
+
+    <br>
+
+    <div>
+        <form th:action="@{/songs/add}" method="post">
+            <button type="submit">Add new song</button>
+        </form>
+    </div>
+
+
 
 
 </main>

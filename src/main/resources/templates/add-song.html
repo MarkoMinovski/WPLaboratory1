@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+
+    <meta charset="UTF-8">
+    <title>Add or Edit Song</title>
+
+  <style>
+
+    h1 {
+      text-align: center;
+    }
+
+    label {
+      display: inline-block;
+      width: 50px;
+    }
+
+    #wrap-form {
+      margin: auto;
+    }
+
+  </style>
+
+</head>
+<body>
+
+
+<h1 th:text="${song.id != null} ? 'Edit Song' : 'Add New Song'"></h1>
+
+
+<form th:action="@{/songs/save}" method="post">
+
+  <input type="hidden" name="id" th:value="${song.id}"/>
+
+
+  <div>
+    <label for="trackId">Track ID</label>
+    <input type="text" id="trackId" name="trackId" th:value="${song.trackId}" required />
+  </div>
+
+  <div>
+    &nbsp;
+  </div>
+
+
+  <div>
+    <label for="title">Title</label>
+    <input type="text" id="title" name="title" th:value="${song.title}" required />
+  </div>
+
+  <div>
+    &nbsp;
+  </div>
+
+  <div>
+    <label for="genre">Genre</label>
+    <input type="text" id="genre" name="genre" th:value="${song.genre}" />
+  </div>
+
+  <div>
+    &nbsp;
+  </div>
+
+  <div>
+    <label for="releaseYear">Release Year</label>
+    <input type="number" id="releaseYear" name="releaseYear" th:value="${song.releaseYear}" />
+  </div>
+
+  <div>
+    &nbsp;
+  </div>
+
+  <label for="new-song-album">Album</label>
+  <select name="new-song-album" id="new-song-album">
+    <option th:each="album: ${albumsList}" th:text="${album}" th:value="${album.id}"></option>
+  </select>
+
+  <div>
+    &nbsp;
+  </div>
+
+  <button type="submit">Save Song</button>
+</form>
+
+<h2>Artists (Cannot add on this page!)</h2>
+
+<div>
+  &nbsp;
+</div>
+
+  <div th:each="artist: ${artistList}" th:text="${artist.firstName} + ' ' + ${artist.lastName}">
+
+  </div>
+
+</body>
+</html>

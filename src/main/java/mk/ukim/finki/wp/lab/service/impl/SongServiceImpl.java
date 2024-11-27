@@ -40,4 +40,9 @@ public class SongServiceImpl implements SongService {
     public Song findByTrackId(String trackId) {
         return songRepository.findByTrackId(trackId);
     }
+
+    @Override
+    public Song findByLongId(Long id) {
+        return songRepository.findByLongId(id);
+    }
 }

@@ -17,6 +17,10 @@ public class SongRepository {
         return DataHolder.songs.stream().filter(song -> song.getTrackId().equals(trackId)).findFirst().orElse(null);
     }
 
+    public Song findByLongId(Long id) {
+        return DataHolder.songs.stream().filter(s -> s.getId().equals(id)).findFirst().orElse(null);
+    }
+
     public Artist addArtistToSong(Artist artist, Song song) {
         if (DataHolder.songs.stream().anyMatch(s -> s.equals(song))) {
             Song tmp_song = DataHolder.songs.stream().filter(s -> s.equals(song)).findFirst().orElse(null);

@@ -13,7 +13,7 @@ import org.thymeleaf.web.servlet.JakartaServletWebApplication;
 
 import java.io.IOException;
 
-@WebServlet(name = "ArtistServlet", urlPatterns = "/artist/artists")
+@WebServlet(name = "ArtistServlet", urlPatterns = "/servlet/artist/artists")
 public class ArtistServlet extends HttpServlet {
     private final SpringTemplateEngine springTemplateEngine;
     private ArtistServiceImpl artistService;
@@ -45,7 +45,7 @@ public class ArtistServlet extends HttpServlet {
         WebContext webContext = new WebContext(webExchange);
 
 
-        String trackId = req.getParameter("SongRadioButton");
+        String trackId = req.getParameter("id");
 
         if (trackId == null) {
             trackId = "N/A";
