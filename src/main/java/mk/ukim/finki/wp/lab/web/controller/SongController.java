@@ -9,6 +9,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.ui.Model;
 
+import java.util.ArrayList;
 import java.util.Optional;
 import java.util.Random;
 
@@ -35,7 +36,7 @@ public class SongController {
     @PostMapping("/delete/{songId}")
     public String deleteSong(@PathVariable Long songId, Model model) {
         Song target = songService.findByLongId(songId);
-        songService.listSongs().remove(target);
+        songService.delete(songId);
 
         model.addAttribute("songList", songService.listSongs());
         model.addAttribute("albumsList", albumService.findAll());
@@ -66,10 +67,25 @@ public class SongController {
         return "add-song";
     }
 
+    @PostMapping("/saveAlbum")
+    public String acceptNewAlbumPostRequest(HttpServletRequest req, Model model) {
+        String userInputName = req.getParameter("name");
+        String userInputGenre = req.getParameter("genre");
+        String userInputReleaseYear = req.getParameter("releaseYear");
+
+        albumService.save(new Album(userInputName, userInputGenre, userInputReleaseYear, new ArrayList<>()));
+
+        model.addAttribute("songList", songService.listSongs());
+        model.addAttribute("albumsList", albumService.findAll());
+
+        return "listSongs";
+    }
+
     // Save changes from the add-song.html form
     @PostMapping("/save")
     public String saveChangesFromEditForm(HttpServletRequest req, Model model) {
         String longIDParameter = req.getParameter("id");
+        String userInputAlbum = req.getParameter("new-song-album");
 
         long longID;
         if (!longIDParameter.isEmpty()) {
@@ -78,27 +94,28 @@ public class SongController {
             longID = 0L;
         }
 
+        // if longId = 0L, then this is a new song
+
+        Optional<Album> selected = albumService.findById(Long.parseLong(userInputAlbum));
         String userInputTitle = req.getParameter("title");
         String userInputTrackID = req.getParameter("trackId");
         String userInputGenre = req.getParameter("genre");
         String userInputReleaseYear = req.getParameter("releaseYear");
-        String userInputAlbum = req.getParameter("new-song-album");
 
-        Optional<Album> selected = albumService.findById(Long.parseLong(userInputAlbum));
+        assert selected.isPresent();
 
-        if (selected.isPresent()) {
-            Random rand = new Random();
-            Song newSong = new Song(rand.nextLong(10000000), userInputTrackID, userInputTitle,
-                    userInputGenre, Integer.parseInt(userInputReleaseYear), selected.get());
+        Song s;
 
-            Song existingElement = songService.findByLongId(longID);
-
-            if (existingElement != null) {
-                songService.listSongs().remove(existingElement);
-            }
-
-            songService.listSongs().add(newSong);
+        if (longID == 0L) {
+            s = new Song(userInputTrackID, userInputTitle,
+                    userInputGenre,Integer.parseInt(userInputReleaseYear),
+                    selected.get(), new ArrayList<>());
+        } else {
+            s = new Song(longID, userInputTrackID, userInputTitle, userInputGenre, Integer.parseInt(userInputReleaseYear),
+                    selected.get(), songService.findByLongId(longID).getArtists());
         }
+
+       songService.saveOrUpdate(s);
 
         model.addAttribute("songList", songService.listSongs());
         model.addAttribute("albumsList", albumService.findAll());

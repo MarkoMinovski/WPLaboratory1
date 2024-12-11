@@ -17,7 +17,6 @@ public class AlbumServiceImpl implements AlbumService {
         this.albumRepository = albumRepository;
     }
 
-
     @Override
     public List<Album> findAll() {
         return albumRepository.findAll();
@@ -26,5 +25,9 @@ public class AlbumServiceImpl implements AlbumService {
     @Override
     public Optional<Album> findById(Long id) {
         return albumRepository.findById(id);
+    }
+
+    public void save(Album a) {
+        albumRepository.save(a);
     }
 }

@@ -8,6 +8,7 @@ import mk.ukim.finki.wp.lab.service.SongService;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class SongServiceImpl implements SongService {
@@ -30,10 +31,21 @@ public class SongServiceImpl implements SongService {
         List<Artist> AllCurrentArtists = artistRepository.findAll();
 
         if (AllCurrentArtists.stream().noneMatch(a -> a.equals(artist))) {
-            AllCurrentArtists.add(artist);
+            artistRepository.save(artist);
         }
 
-        return songRepository.addArtistToSong(artist, song);
+        Optional<Song> s = songRepository.findById(song.getId());
+
+        s.ifPresent(value -> value.getArtists().add(artist));
+        s.ifPresent(songRepository::save);
+
+
+        return artist;
+    }
+
+    public Optional<Song> saveOrUpdate(Song s) {
+        songRepository.save(s);
+        return Optional.empty();
     }
 
     @Override
@@ -43,6 +55,10 @@ public class SongServiceImpl implements SongService {
 
     @Override
     public Song findByLongId(Long id) {
-        return songRepository.findByLongId(id);
+        return songRepository.findSongById(id).orElse(null);
+    }
+
+    public void delete(Long id) {
+        songRepository.deleteById(id);
     }
 }

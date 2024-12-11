@@ -59,6 +59,45 @@
   </form>
 </section>
 
+<div>
+  <h1>Add a New Artist</h1>
+  <form th:action="@{/artists/add}" method="POST">
+
+    <input type="hidden" th:value="${trackId}" name="trackId"/>
+
+    <div>
+      <label for="firstName">First Name</label>
+      <input type="text" id="firstName" name="firstName" placeholder="Enter first name" required>
+    </div>
+
+    <br>
+
+    <div>
+      <label for="lastName">Last Name</label>
+      <input type="text" id="lastName" name="lastName" placeholder="Enter last name" required>
+    </div>
+
+    <br>
+
+    <div>
+      <label for="bio">Bio</label>
+      <textarea id="bio" name="bio" rows="4" placeholder="Enter artist bio" required></textarea>
+    </div>
+
+    <br>
+
+    <div>
+      <button type="submit" style="float: right;">Add Artist</button>
+    </div>
+  </form>
+</div>
+
+<br>
+
+
+
+
+
 <aside>
   <table>
     <tr>

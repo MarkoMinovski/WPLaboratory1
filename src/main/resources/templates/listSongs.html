@@ -75,6 +75,42 @@
         </form>
     </div>
 
+    <br>
+    <br>
+
+    <h2>Add new album:</h2>
+
+    <div>
+    <form th:action="@{/songs/saveAlbum}" method="POST">
+
+
+        <div>
+            <label for="name">Name</label>
+            <input type="text" id="name" name="name" placeholder="Enter name" required>
+        </div>
+
+        <br>
+
+        <div>
+            <label for="genre">Genre</label>
+            <input type="text" id="genre" name="genre" placeholder="Enter genre" required>
+        </div>
+
+        <br>
+
+        <div>
+            <label for="releaseYear">Release Year</label>
+            <input type="number" id="releaseYear" name="releaseYear" required>
+        </div>
+
+        <br>
+
+        <div>
+            <button type="submit">Add Album</button>
+        </div>
+    </form>
+    </div>
+
 
 
 

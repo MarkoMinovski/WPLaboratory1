@@ -4,11 +4,13 @@ import jakarta.annotation.PostConstruct;
 import mk.ukim.finki.wp.lab.model.Album;
 import mk.ukim.finki.wp.lab.model.Artist;
 import mk.ukim.finki.wp.lab.model.Song;
+import mk.ukim.finki.wp.lab.repository.AlbumRepository;
+import mk.ukim.finki.wp.lab.repository.ArtistRepository;
+import mk.ukim.finki.wp.lab.repository.SongRepository;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
 
 @Component
 public class DataHolder {
@@ -16,30 +18,53 @@ public class DataHolder {
     public static List<Song> songs;
     public static List<Album> albums;
 
+    private final AlbumRepository albumRepository;
+    private final ArtistRepository artistRepository;
+    private final SongRepository songRepository;
+
+    public DataHolder(AlbumRepository albumRepository, ArtistRepository artistRepository, SongRepository songRepository) {
+        this.albumRepository = albumRepository;
+        this.artistRepository = artistRepository;
+        this.songRepository = songRepository;
+    }
+
     @PostConstruct
     public void init() {
-        Random rand = new Random();
         artists = new ArrayList<>();
         songs = new ArrayList<>();
         albums = new ArrayList<>();
 
-        albums.add(new Album(rand.nextLong(10000000),"Face", "K-Pop", "2023"));
-        albums.add(new Album(rand.nextLong(10000000),"Thank U, Next", "Pop", "2019"));
-        albums.add(new Album(rand.nextLong(10000000),"BE", "K-Pop", "2020"));
-        albums.add(new Album(rand.nextLong(10000000),"GIANT", "K-Pop", "2024"));
-        albums.add(new Album(rand.nextLong(10000000),"Vol. 3: (The Subliminal Verses)", "Nu-Metal", "2004"));
 
-        songs.add(new Song(rand.nextLong(10000000),"LCR", "Like Crazy", "K-Pop", 2023, albums.get(0)));
-        songs.add(new Song(rand.nextLong(10000000),"TYN", "Thank U, Next", "Pop", 2019, albums.get(1)));
-        songs.add(new Song(rand.nextLong(10000000),"DYN", "Dynamite", "K-Pop", 2020, albums.get(2)));
-        songs.add(new Song(rand.nextLong(10000000),"CCB", "Chk Chk Boom", "Hip-Hop", 2024, albums.get(3)));
-        songs.add(new Song(rand.nextLong(10000000),"DUA", "Duality", "Nu-Metal", 2004, albums.get(4)));
+        if (this.albumRepository.count() == 0) {
+            albums.add(new Album("Face", "K-Pop", "2023", new ArrayList<>()));
+            albums.add(new Album("Thank U, Next", "Pop", "2019", new ArrayList<>()));
+            albums.add(new Album("BE", "K-Pop", "2020", new ArrayList<>()));
+            albums.add(new Album("GIANT", "K-Pop", "2024", new ArrayList<>()));
+            albums.add(new Album("Vol. 3: (The Subliminal Verses)", "Nu-Metal", "2004",
+                    new ArrayList<>()));
+            albumRepository.saveAll(albums);
+        }
 
-        artists.add(new Artist(1L, "Megan", "Thee Stallion", "Some bio 1"));
-        artists.add(new Artist(2L, "Taylor", "Swift", "Some bio 2"));
-        artists.add(new Artist(3L, "Ariana", "Grande", "Some bio 3"));
-        artists.add(new Artist(4L, "Noah", "Sebastian", "Some bio 4"));
-        artists.add(new Artist(5L, "Park", "Ji-min", "Some bio 5"));
+        if (this.artistRepository.count() == 0) {
+            artists.add(new Artist("Megan", "Thee Stallion", "Some bio 1"));
+            artists.add(new Artist("Taylor", "Swift", "Some bio 2"));
+            artists.add(new Artist("Ariana", "Grande", "Some bio 3"));
+            artists.add(new Artist("Noah", "Sebastian", "Some bio 4"));
+            artists.add(new Artist("Park", "Ji-min", "Some bio 5"));
+            artistRepository.saveAll(artists);
+        }
+
+        if (this.songRepository.count() == 0) {
+            songs.add(new Song("LCR", "Like Crazy", "K-Pop", 2023, albums.get(0), new ArrayList<>()));
+            songs.add(new Song("TYN", "Thank U, Next", "Pop", 2019, albums.get(1), new ArrayList<>()));
+            songs.add(new Song("DYN", "Dynamite", "K-Pop", 2020, albums.get(2), new ArrayList<>()));
+            songs.add(new Song("CCB", "Chk Chk Boom", "Hip-Hop", 2024, albums.get(3), new ArrayList<>()));
+            songs.add(new Song("DUA", "Duality", "Nu-Metal", 2004, albums.get(4), new ArrayList<>()));
+            songRepository.saveAll(songs);
+        }
+
+
+
 
 
     }

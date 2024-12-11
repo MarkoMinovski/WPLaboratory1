@@ -4,7 +4,6 @@ package mk.ukim.finki.wp.lab.web.controller;
 import jakarta.servlet.http.HttpServletRequest;
 import mk.ukim.finki.wp.lab.model.Artist;
 import mk.ukim.finki.wp.lab.model.Song;
-import mk.ukim.finki.wp.lab.repository.ArtistRepository;
 import mk.ukim.finki.wp.lab.service.impl.ArtistServiceImpl;
 import mk.ukim.finki.wp.lab.service.impl.SongServiceImpl;
 import org.springframework.stereotype.Controller;
@@ -48,4 +47,22 @@ public class ArtistController {
 
         return "songDetails";
     }
+
+    @PostMapping("/add")
+    public String acceptAddingNewArtistPostRequest(HttpServletRequest req, Model model) {
+        String userInputFirstName = req.getParameter("firstName");
+        String userInputLastName = req.getParameter("lastName");
+        String userInputBio = req.getParameter("bio");
+        String hiddenInputTrackID = req.getParameter("trackId");
+
+        Artist a = new Artist(userInputFirstName, userInputLastName, userInputBio);
+
+        artistService.save(a);
+
+        model.addAttribute("trackId", hiddenInputTrackID);
+        model.addAttribute("artistList", artistService.listArtists());
+
+        return "artistsList";
+    }
+
 }
