@@ -1,10 +1,12 @@
 package mk.ukim.finki.wp.lab.service.impl;
 
+import mk.ukim.finki.wp.lab.model.Album;
 import mk.ukim.finki.wp.lab.model.Artist;
 import mk.ukim.finki.wp.lab.model.Song;
 import mk.ukim.finki.wp.lab.repository.ArtistRepository;
 import mk.ukim.finki.wp.lab.repository.SongRepository;
 import mk.ukim.finki.wp.lab.service.SongService;
+import org.springframework.data.domain.Limit;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -43,9 +45,8 @@ public class SongServiceImpl implements SongService {
         return artist;
     }
 
-    public Optional<Song> saveOrUpdate(Song s) {
+    public void saveOrUpdate(Song s) {
         songRepository.save(s);
-        return Optional.empty();
     }
 
     @Override
@@ -58,7 +59,9 @@ public class SongServiceImpl implements SongService {
         return songRepository.findSongById(id).orElse(null);
     }
 
+    @Override
     public void delete(Long id) {
         songRepository.deleteById(id);
     }
+
 }
