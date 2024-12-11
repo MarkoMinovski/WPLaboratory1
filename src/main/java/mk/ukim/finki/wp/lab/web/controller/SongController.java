@@ -29,6 +29,9 @@ public class SongController {
     public String getSongsPage(@RequestParam(required = false) String error, Model model) {
         model.addAttribute("songList", songService.listSongs());
         model.addAttribute("albumsList", albumService.findAll());
+
+        System.out.println(songService.findSongsByAlbum_Id(albumService.findAll().getFirst().getId()));
+
         return "listSongs";
     }
 

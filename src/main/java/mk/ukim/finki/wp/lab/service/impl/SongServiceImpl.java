@@ -64,4 +64,10 @@ public class SongServiceImpl implements SongService {
         songRepository.deleteById(id);
     }
 
+    @Override
+    public List<Song> findSongsByAlbum_Id(Long id) {
+        return songRepository.findAllByAlbum_Id(id, Limit.of(500));
+    }
+
+
 }

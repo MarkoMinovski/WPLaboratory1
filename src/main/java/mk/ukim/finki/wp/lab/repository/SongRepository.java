@@ -20,5 +20,4 @@ public interface SongRepository extends JpaRepository<Song, Long> {
     @Override
     void deleteById(Long id);
 
-    List<Song> findSongsByAlbum(Album album);
 }

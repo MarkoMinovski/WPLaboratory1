@@ -12,4 +12,5 @@ public interface SongService {
     public Song findByTrackId(String trackId);
     public Song findByLongId(Long id);
     public void delete(Long id);
+    public List<Song> findSongsByAlbum_Id(Long id);
 }
