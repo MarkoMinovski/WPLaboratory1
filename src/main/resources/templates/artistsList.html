@@ -57,6 +57,35 @@
 
     <input type='submit' value='Add artist'>
   </form>
+
+  <br>
+  <br>
+
+  <h2>Filter artists</h2>
+  <form th:action="@{/artists/search}" method="POST">
+
+    <input type="hidden" th:value="${trackId}" name="trackId"/>
+
+    <div>
+      <label for="firstName-search">First Name</label>
+      <input type="text" id="firstName-search" name="firstName-search" placeholder="Enter first name">
+    </div>
+
+    <br>
+
+    <div>
+      <label for="lastName-search">Last Name</label>
+      <input type="text" id="lastName-search" name="lastName-search" placeholder="Enter last name">
+    </div>
+
+    <br>
+
+
+    <div>
+      <button type="submit" style="float: left;">Filter</button>
+    </div>
+  </form>
+
 </section>
 
 <div>
@@ -67,27 +96,27 @@
 
     <div>
       <label for="firstName">First Name</label>
-      <input type="text" id="firstName" name="firstName" placeholder="Enter first name" required>
+      <input type="text" id="firstName" name="firstName" placeholder="Enter first name">
     </div>
 
     <br>
 
     <div>
       <label for="lastName">Last Name</label>
-      <input type="text" id="lastName" name="lastName" placeholder="Enter last name" required>
+      <input type="text" id="lastName" name="lastName" placeholder="Enter last name">
     </div>
 
     <br>
 
     <div>
       <label for="bio">Bio</label>
-      <textarea id="bio" name="bio" rows="4" placeholder="Enter artist bio" required></textarea>
+      <textarea id="bio" name="bio" rows="4" placeholder="Enter artist bio"></textarea>
     </div>
 
     <br>
 
     <div>
-      <button type="submit" style="float: right;">Add Artist</button>
+      <button type="submit">Add Artist</button>
     </div>
   </form>
 </div>
