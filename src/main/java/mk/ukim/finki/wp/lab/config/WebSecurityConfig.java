@@ -33,9 +33,10 @@ public class WebSecurityConfig {
                 .authorizeHttpRequests((requests) -> requests
                         .requestMatchers("/login")
                         .permitAll()
-                        .requestMatchers("/songs", "/artists/songDetails")
-                        .hasRole("USER")
-                        .requestMatchers("/songs/*", "/artists/*").hasRole("ADMIN")
+                        .requestMatchers("/songs/*", "/artists/*")
+                        .hasRole("ADMIN")
+                        .requestMatchers("/songs")
+                        .hasAnyRole("USER", "ADMIN")
                         .anyRequest()
                         .authenticated()
                 )
