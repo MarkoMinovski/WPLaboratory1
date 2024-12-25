@@ -1,6 +1,7 @@
 package mk.ukim.finki.wp.lab.bootstrap;
 
 import jakarta.annotation.PostConstruct;
+import jakarta.transaction.Transactional;
 import mk.ukim.finki.wp.lab.model.Album;
 import mk.ukim.finki.wp.lab.model.Artist;
 import mk.ukim.finki.wp.lab.model.Song;
@@ -29,6 +30,7 @@ public class DataHolder {
     }
 
     @PostConstruct
+    @Transactional
     public void init() {
         artists = new ArrayList<>();
         songs = new ArrayList<>();
@@ -61,11 +63,14 @@ public class DataHolder {
             songs.add(new Song("CCB", "Chk Chk Boom", "Hip-Hop", 2024, albums.get(3), new ArrayList<>()));
             songs.add(new Song("DUA", "Duality", "Nu-Metal", 2004, albums.get(4), new ArrayList<>()));
             songRepository.saveAll(songs);
+
+            for (Song song : songs) {
+                Album a = albumRepository.findById(song.getAlbum().getId()).get();
+                a.getSongs().add(song);
+                albumRepository.save(a);
+            }
+
         }
-
-
-
-
 
     }
 

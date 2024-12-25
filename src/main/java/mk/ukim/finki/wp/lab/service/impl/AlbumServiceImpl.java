@@ -6,6 +6,8 @@ import mk.ukim.finki.wp.lab.repository.AlbumRepository;
 import mk.ukim.finki.wp.lab.service.AlbumService;
 import org.springframework.stereotype.Service;
 
+import java.io.Serializable;
+import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
 
@@ -29,5 +31,9 @@ public class AlbumServiceImpl implements AlbumService {
 
     public void save(Album a) {
         albumRepository.save(a);
+    }
+
+    public void saveAll(List<Album> items) {
+        albumRepository.saveAll(items);
     }
 }

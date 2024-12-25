@@ -17,7 +17,7 @@ public class Album {
     private String name;
     private String genre;
     private String releaseYear;
-    @OneToMany
+    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     private List<Song> songs;
 
     public Album(Long id, String name, String genre, String releaseYear) {

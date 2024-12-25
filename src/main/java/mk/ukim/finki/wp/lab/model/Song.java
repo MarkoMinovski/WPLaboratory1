@@ -22,7 +22,7 @@ public class Song {
     int releaseYear;
     @ManyToOne
     Album album;
-    @OneToMany
+    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     List<Artist> artists;
 
     public Song(Long id, String trackId, String title, String genre, int releaseYear, Album a, List<Artist> artists) {
