@@ -58,7 +58,7 @@
                 <button type="submit">Remove</button>
             </form>
 
-            <form th:action="@{/artists/all}" method="post">
+            <form th:action="@{/artists/choose}" method="post">
                 <input type="hidden" name="id" th:value="${song.id}" />
                 <button type="submit">Add Artist</button>
             </form>
@@ -129,11 +129,18 @@
 
         <ul>
             <li th:each="song_1: ${album.songs}" th:text="${song_1.title} + ' ' + ${song_1.genre} + ' ' + ${song_1.releaseYear}">
-
+                <ul>
+                    Performers:
+                    <li th:each="artist: ${song.artists}" th:text="${artist.firstName + ' ' + artist.lastName}"></li>
+                </ul>
             </li>
         </ul>
 
     </div>
+
+    <h2>Artists</h2>
+
+    <div>See <a href="artists/all">here</a></div>
 
     <footer th:replace="/fragments/footer.html">
     </footer>

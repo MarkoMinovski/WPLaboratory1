@@ -10,6 +10,7 @@ import mk.ukim.finki.wp.lab.service.impl.SongServiceImpl;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
@@ -26,10 +27,20 @@ public class ArtistController {
         this.songService = songService;
     }
 
-    @PostMapping("/all")
+    @PostMapping("/choose")
     public String chooseArtistForm(HttpServletRequest req, Model model) {
         String longID = req.getParameter("id");
         String trackID = songService.findByLongId(Long.parseLong(longID)).getTrackId();
+
+        model.addAttribute("trackId", trackID);
+        model.addAttribute("artistList", artistService.listArtists());
+
+        return "artistsList";
+    }
+
+    @GetMapping("/all")
+    public String seeArtists(Model model) {
+        String trackID = "N/A";
 
         model.addAttribute("trackId", trackID);
         model.addAttribute("artistList", artistService.listArtists());
